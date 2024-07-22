@@ -1,13 +1,13 @@
-getgenv().Howl = {
+getgenv().maka = {
     Aimbot = {
         Keybind = Enum.KeyCode.C,
-        AimBotSkid = 0.187,
+        AimBotSkid = 0.003,
         Prediction = 0.1247724521,
 
         ShakeEnabled = false,
         Shake = 0,
         
-        Amount = 0.160145,
+        Amount = 0.003,
         Style = "Back",
         Direction = "Inout",
 
@@ -117,12 +117,12 @@ local Camera = workspace.CurrentCamera
 local Toggle = false -- Initialize Toggle to false
 
 local function OnKeyPress(Input, GameProcessedEvent)
-    if Input.KeyCode == getgenv().Howl.Aimbot.Keybind and not GameProcessedEvent then 
+    if Input.KeyCode == getgenv().maka.Aimbot.Keybind and not GameProcessedEvent then 
         Toggle = not Toggle
-    elseif Input.KeyCode == getgenv().Howl.Macro.SpeedGlitchKey then
-        if getgenv().Howl.Macro.Enabled then 
-            getgenv().Howl.Macro.SpeedGlitch = not getgenv().Howl.Macro.SpeedGlitch
-            if getgenv().Howl.Macro.SpeedGlitch then
+    elseif Input.KeyCode == getgenv().maka.Macro.SpeedGlitchKey then
+        if getgenv().maka.Macro.Enabled then 
+            getgenv().maka.Macro.SpeedGlitch = not getgenv().maka.Macro.SpeedGlitch
+            if getgenv().maka.Macro.SpeedGlitch then
                 repeat
                     game:GetService("RunService").Heartbeat:Wait()
                     keypress(0x49)
@@ -133,7 +133,7 @@ local function OnKeyPress(Input, GameProcessedEvent)
                     game:GetService("RunService").Heartbeat:Wait()
                     keyrelease(0x4F)
                     game:GetService("RunService").Heartbeat:Wait()
-                until not getgenv().Howl.Macro.SpeedGlitch
+                until not getgenv().maka.Macro.SpeedGlitch
             end
         end
     end
@@ -143,7 +143,7 @@ UserInputService.InputBegan:Connect(OnKeyPress)
 
 UserInputService.InputBegan:Connect(function(keygo, ok)
     if (not ok) then
-        if (keygo.KeyCode == getgenv().Howl.Aimbot.Keybind) then
+        if (keygo.KeyCode == getgenv().maka.Aimbot.Keybind) then
             Locking = not Locking
             if Locking then
                 Plr = getClosestPlayerToCursor()
@@ -181,7 +181,7 @@ function getClosestPartToCursor(Player)
             if part:IsA("BasePart") then
                 local screenPos, cameraVisible = workspace.CurrentCamera:WorldToViewportPoint(part.Position)
                 local distToMouse = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(screenPos.X, screenPos.Y)).Magnitude
-                if distToMouse < closestDist and table.find(getgenv().Howl.Aimbot.MultipleTargetPart, part.Name) then
+                if distToMouse < closestDist and table.find(getgenv().maka.Aimbot.MultipleTargetPart, part.Name) then
                     closestPart = part
                     closestDist = distToMouse
                 end
@@ -193,10 +193,10 @@ end
 
 game:GetService("RunService").RenderStepped:Connect(function()
     if Plr and Plr.Character then
-        if getgenv().Howl.Aimbot.NearestPart == true and getgenv().Howl.Aimbot.Basic == false then
-            getgenv().Howl.Aimbot.TargetPart = tostring(getClosestPartToCursor(Plr))
-        elseif getgenv().Howl.Aimbot.Basic == true and getgenv().Howl.Aimbot.NearestPart == false then
-            getgenv().Howl.Aimbot.TargetPart = getgenv().Howl.Aimbot.TargetPart
+        if getgenv().maka.Aimbot.NearestPart == true and getgenv().maka.Aimbot.Basic == false then
+            getgenv().maka.Aimbot.TargetPart = tostring(getClosestPartToCursor(Plr))
+        elseif getgenv().maka.Aimbot.Basic == true and getgenv().maka.Aimbot.NearestPart == false then
+            getgenv().maka.Aimbot.TargetPart = getgenv().maka.Aimbot.TargetPart
         end
     end
 end)
@@ -225,11 +225,11 @@ Client.Character.ChildAdded:Connect(function(child)
     if child:IsA("Tool") and child:FindFirstChild("MaxAmmo") then
         child.Activated:Connect(function()
             if Plr and Plr.Character then
-                local Position = Plr.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall and Plr.Character[getgenv().Howl.Aimbot.TargetPart].Position + Vector3.new(0, getgenv().Howl.Aimbot.JumpOffset, 0) or Plr.Character[getgenv().Howl.Aimbot.TargetPart].Position
+                local Position = Plr.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall and Plr.Character[getgenv().maka.Aimbot.TargetPart].Position + Vector3.new(0, getgenv().maka.Aimbot.JumpOffset, 0) or Plr.Character[getgenv().maka.Aimbot.TargetPart].Position
                 if game.PlaceId == 2788229376 or game.PlaceId == 7213786345 or game.PlaceId == 16033173781 or game.PlaceId == 16158576873 then 
-                    mainevent:FireServer("UpdateMousePosI", Position + ((Plr.Character.HumanoidRootPart.Velocity) * getgenv().Howl.Aimbot.Prediction))
+                    mainevent:FireServer("UpdateMousePosI", Position + ((Plr.Character.HumanoidRootPart.Velocity) * getgenv().maka.Aimbot.Prediction))
                 else
-                    mainevent:FireServer("UpdateMousePos", Position + ((Plr.Character.Humanoid.MoveDirection * Plr.Character.Humanoid.WalkSpeed) * getgenv().Howl.Aimbot.Prediction))
+                    mainevent:FireServer("UpdateMousePos", Position + ((Plr.Character.Humanoid.MoveDirection * Plr.Character.Humanoid.WalkSpeed) * getgenv().maka.Aimbot.Prediction))
                 end
             end
         end)
@@ -241,11 +241,11 @@ Client.CharacterAdded:Connect(function(character)
         if child:IsA("Tool") and child:FindFirstChild("MaxAmmo") then
             child.Activated:Connect(function()
                 if Plr and Plr.Character then
-                    local Position = Plr.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall and Plr.Character[getgenv().Howl.Aimbot.TargetPart].Position + Vector3.new(0, getgenv().Howl.Aimbot.JumpOffset, 0) or Plr.Character[getgenv().Howl.Aimbot.TargetPart].Position
+                    local Position = Plr.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall and Plr.Character[getgenv().maka.Aimbot.TargetPart].Position + Vector3.new(0, getgenv().maka.Aimbot.JumpOffset, 0) or Plr.Character[getgenv().maka.Aimbot.TargetPart].Position
                     if game.PlaceId == 2788229376 or game.PlaceId == 7213786345 or game.PlaceId == 16033173781 or game.PlaceId == 16158576873 then 
-                        mainevent:FireServer("UpdateMousePosI", Position + ((Plr.Character.HumanoidRootPart.Velocity) * getgenv().Howl.Aimbot.Prediction))
+                        mainevent:FireServer("UpdateMousePosI", Position + ((Plr.Character.HumanoidRootPart.Velocity) * getgenv().maka.Aimbot.Prediction))
                     else
-                        mainevent:FireServer("UpdateMousePos", Position + ((Plr.Character.Humanoid.MoveDirection * Plr.Character.Humanoid.WalkSpeed) * getgenv().Howl.Aimbot.Prediction))
+                        mainevent:FireServer("UpdateMousePos", Position + ((Plr.Character.Humanoid.MoveDirection * Plr.Character.Humanoid.WalkSpeed) * getgenv().maka.Aimbot.Prediction))
                     end
                 end
             end)
@@ -255,16 +255,16 @@ end)
 
 game:GetService("RunService").RenderStepped:Connect(function()
     if Plr ~= nil and Plr.Character then
-        local Position = Plr.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall and Plr.Character[getgenv().Howl.Aimbot.TargetPart].Position + Vector3.new(0, getgenv().Howl.Aimbot.JumpOffset, 0) or Plr.Character[getgenv().Howl.Aimbot.TargetPart].Position
+        local Position = Plr.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall and Plr.Character[getgenv().maka.Aimbot.TargetPart].Position + Vector3.new(0, getgenv().maka.Aimbot.JumpOffset, 0) or Plr.Character[getgenv().maka.Aimbot.TargetPart].Position
         if not CheckAnti(Plr) then
-            local Main = CFrame.new(workspace.CurrentCamera.CFrame.p, Position + ((Plr.Character.HumanoidRootPart.Velocity) * getgenv().Howl.Aimbot.AimBotSkid) + GetShakedVector3(getgenv().Howl.Aimbot.Shake))
-            workspace.CurrentCamera.CFrame = workspace.CurrentCamera.CFrame:Lerp(Main, getgenv().Howl.Aimbot.Amount, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+            local Main = CFrame.new(workspace.CurrentCamera.CFrame.p, Position + ((Plr.Character.HumanoidRootPart.Velocity) * getgenv().maka.Aimbot.AimBotSkid) + GetShakedVector3(getgenv().maka.Aimbot.Shake))
+            workspace.CurrentCamera.CFrame = workspace.CurrentCamera.CFrame:Lerp(Main, getgenv().maka.Aimbot.Amount, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
         else
-            local Main = CFrame.new(workspace.CurrentCamera.CFrame.p, Position + ((Plr.Character.Humanoid.MoveDirection * Plr.Character.Humanoid.WalkSpeed) * getgenv().Howl.Aimbot.AimBotSkid) + GetShakedVector3(getgenv().Howl.Aimbot.CameraShake))
-            workspace.CurrentCamera.CFrame = workspace.CurrentCamera.CFrame:Lerp(Main, getgenv().Howl.Aimbot.Amount, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+            local Main = CFrame.new(workspace.CurrentCamera.CFrame.p, Position + ((Plr.Character.Humanoid.MoveDirection * Plr.Character.Humanoid.WalkSpeed) * getgenv().maka.Aimbot.AimBotSkid) + GetShakedVector3(getgenv().maka.Aimbot.CameraShake))
+            workspace.CurrentCamera.CFrame = workspace.CurrentCamera.CFrame:Lerp(Main, getgenv().maka.Aimbot.Amount, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
         end
     end
-    if getgenv().Howl.Checks.PlayerDeath == true and Plr and Plr.Character then
+    if getgenv().maka.Checks.PlayerDeath == true and Plr and Plr.Character then
         local KOd = Plr.Character:WaitForChild("BodyEffects")["K.O"].Value
         local Grabbed = Plr.Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
         if Plr.Character.Humanoid.Health < 1 or KOd or Grabbed then
@@ -274,7 +274,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
             end
         end
     end
-    if getgenv().Howl.Checks.TargetDeath == true and Plr and Plr.Character:FindFirstChild("Humanoid") then
+    if getgenv().maka.Checks.TargetDeath == true and Plr and Plr.Character:FindFirstChild("Humanoid") then
         if Plr.Character.Humanoid.health < 1 then
             if Locking == true then
                 Plr = nil
@@ -282,13 +282,13 @@ game:GetService("RunService").RenderStepped:Connect(function()
             end
         end
     end
-    if getgenv().Howl.Checks.PlayerDeath  == true and Client.Character and Client.Character:FindFirstChild("Humanoid") and Client.Character.Humanoid.health < 1 then
+    if getgenv().maka.Checks.PlayerDeath  == true and Client.Character and Client.Character:FindFirstChild("Humanoid") and Client.Character.Humanoid.health < 1 then
         if Locking == true then
             Plr = nil
             Locking = false
         end
     end
-    if getgenv().Howl.Safety.AntiGroundShots == true and Plr.Character.Humanoid.Jump == true and Plr.Character.Humanoid.FloorMaterial == Enum.Material.Air then
+    if getgenv().maka.Safety.AntiGroundShots == true and Plr.Character.Humanoid.Jump == true and Plr.Character.Humanoid.FloorMaterial == Enum.Material.Air then
         pcall(function()
             local TargetVelv5 = Plr.Character.HumanoidRootPart
     TargetVelv5.Velocity = Vector3.new(TargetVelv5.Velocity.X, math.abs(TargetVelv5.Velocity.Y * 0.36),
@@ -298,15 +298,15 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end
 end)
 
-if getgenv().Howl.Spin.Enabled == true then
+if getgenv().maka.Spin.Enabled == true then
     
     local Players = game:GetService("Players")
     local UserInputService = game:GetService("UserInputService")
     local RunService = game:GetService("RunService")
     local Camera = workspace.CurrentCamera
-    local Toggle = getgenv().Howl.Spin.Enabled
-    local RotationSpeed = getgenv().Howl.Spin.SpinSpeed
-    local Keybind = getgenv().Howl.Spin.Keybind
+    local Toggle = getgenv().maka.Spin.Enabled
+    local RotationSpeed = getgenv().maka.Spin.SpinSpeed
+    local Keybind = getgenv().maka.Spin.Keybind
     
     local function OnKeyPress(Input, GameProcessedEvent)
         if Input.KeyCode == Keybind and not GameProcessedEvent then 
@@ -330,7 +330,7 @@ if getgenv().Howl.Spin.Enabled == true then
             Camera.CFrame = Camera.CFrame * Rotation
     
             TotalRotation = TotalRotation + RotationAngle
-            if TotalRotation >= getgenv().Howl.Spin.Degrees then 
+            if TotalRotation >= getgenv().maka.Spin.Degrees then 
                 Toggle = false
                 TotalRotation = 0
             end
@@ -343,7 +343,7 @@ if getgenv().Howl.Spin.Enabled == true then
 getgenv().Loaded = true -- end of the script
 else
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Howl",
+        Title = "maka",
         Text = "Updated Table",
         Duration = 0.001
     })
